@@ -1,4 +1,4 @@
-stegosaurust.thepihouse.my.id {
+localhost {
 	handle {
 		reverse_proxy localhost:3000 {
 			header_up Host {host}

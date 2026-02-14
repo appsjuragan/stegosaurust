@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   keywords: ["steganography", "encryption", "AES-256", "security", "privacy", "hidden messages", "QR code"],
   authors: [{ name: "Appsjuragan" }],
   icons: {
-    icon: "/logo.svg",
+    icon: "/logo.png",
   },
   openGraph: {
     title: "Stegosaurust",
