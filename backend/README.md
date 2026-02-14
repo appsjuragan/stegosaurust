@@ -205,3 +205,5 @@ CREATE TABLE captcha_sessions (
 ## License
 
 MIT
+
+Built by Appsjuragan

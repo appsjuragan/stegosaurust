@@ -10,4 +10,9 @@ yarn.lock
 pnpm-lock.yaml
 test
 *.log
+backend/target
+backend/data
+*.env
+.env*
+test_api.bat
 local-*

@@ -2,6 +2,8 @@
 //! 
 //! A Rust backend for encrypted text storage with steganography support
 //! Features: JWT auth, captcha, input sanitization, stegano for PNG/JPG/WEBP
+//! 
+//! Built by Appsjuragan
 
 mod auth;
 mod captcha;

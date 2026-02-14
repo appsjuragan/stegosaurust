@@ -1,3 +1,7 @@
+/** @type {import('next').NextConfig} */
+/**
+ * Stegosaurust - Built by Appsjuragan
+ */
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
