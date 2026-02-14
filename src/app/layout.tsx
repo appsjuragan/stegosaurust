@@ -13,7 +13,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Stegosaurust - Secure Steganography Application",
   description: "Hide your secrets in plain sight. Encrypt messages with seed words and embed them securely into images using advanced steganography techniques.",
   keywords: ["steganography", "encryption", "AES-256", "security", "privacy", "hidden messages", "QR code"],
@@ -24,6 +27,8 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Stegosaurust",
     description: "Secure steganography application with AES-256 encryption",
+    url: siteUrl,
+    siteName: "Stegosaurust",
     type: "website",
   },
 };

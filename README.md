@@ -64,6 +64,30 @@
     ```
     The app will utilize port 3000 or 3001.
 
+## Deployment
+
+### Docker / Podman
+
+You can build and deploy the entire application using the provided Dockerfile:
+
+1. **Build the image**:
+   ```bash
+   podman build --build-arg NEXT_PUBLIC_SITE_URL=https://stegosaurust.thepihouse.my.id -t stegosaurust .
+   ```
+
+2. **Run the container**:
+   ```bash
+   podman run -d \
+     -p 3000:3000 -p 8080:8080 \
+     -e MINIO_ENDPOINT=http://192.168.1.106:9200 \
+     -e MINIO_ACCESS_KEY=your_key \
+     -e MINIO_SECRET_KEY=your_secret \
+     -v stegosaurust_data:/app/data \
+     --name stegosaurust stegosaurust
+   ```
+
+Note: The `NEXT_PUBLIC_SITE_URL` is baked into the frontend at build time for SEO and metadata metadataBase.
+
 ## API Documentation
 
 Import the `backend/postman_collection.json` file into Postman to explore and test the API endpoints.

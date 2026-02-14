@@ -21,6 +21,9 @@ COPY public ./public
 # Install dependencies
 RUN bun install
 
+ARG NEXT_PUBLIC_SITE_URL
+ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
+
 # Build Next.js
 # Note: "next build" outputs to .next/standalone
 RUN bun run build
