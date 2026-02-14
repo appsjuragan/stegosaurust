@@ -49,6 +49,10 @@ const nextConfig: NextConfig = {
             key: "Cross-Origin-Resource-Policy",
             value: "same-origin",
           },
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=31536000; includeSubDomains; preload",
+          },
         ],
       },
     ];
