@@ -76,10 +76,9 @@ pub async fn embed_message_handler(
         
         match name.as_str() {
             "image" => {
-                original_filename = field
-                    .file_name()
-                    .unwrap_or("image")
-                    .to_string();
+                original_filename = crate::models::sanitize_input(
+                    field.file_name().unwrap_or("image")
+                );
                 
                 let data = field.bytes().await.map_err(|e| {
                     AppError::Validation(format!("Failed to read image: {}", e))

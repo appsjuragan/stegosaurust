@@ -16,3 +16,4 @@ backend/data
 .env*
 test_api.bat
 local-*
+PENTEST/*

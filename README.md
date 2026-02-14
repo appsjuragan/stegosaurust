@@ -12,6 +12,9 @@
 -   **MinIO Storage**: Scalable storage for steganography images using MinIO/S3.
 -   **QR Code**: Generate QR codes for easy sharing.
 -   **User Authentication**: Secure JWT-based authentication with Captcha protection.
+-   **Rate Limiting**: Integrated brute-force protection using `tower-governor`.
+-   **Security Headers**: Production-ready headers (CSP, HSTS, XFO) pre-configured via Caddy.
+-   **Input Sanitization**: Multi-layer sanitization for text, filenames, and metadata.
 
 ## Technology Stack
 

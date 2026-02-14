@@ -25,9 +25,9 @@ pub fn embed_message(
     // First encrypt the message
     let encrypted = encrypt_text(message, seed_words)?;
     
-    // Load the image
+    // Load the image with auto-detection but use target format for logic
     let img_format = parse_image_format(format)?;
-    let img = image::load_from_memory_with_format(image_data, img_format)
+    let img = image::load_from_memory(image_data)
         .map_err(|e| AppError::Stegano(format!("Failed to load image: {}", e)))?;
     
     let (width, height) = img.dimensions();
@@ -80,7 +80,7 @@ pub fn extract_message(
     format: &str,
 ) -> AppResult<String> {
     let img_format = parse_image_format(format)?;
-    let img = image::load_from_memory_with_format(image_data, img_format)
+    let img = image::load_from_memory(image_data)
         .map_err(|e| AppError::Stegano(format!("Failed to load image: {}", e)))?;
     
     // Extract LSB data
@@ -131,7 +131,7 @@ pub fn detect_stegano_content(
     format: &str,
 ) -> AppResult<bool> {
     let img_format = parse_image_format(format)?;
-    let img = image::load_from_memory_with_format(image_data, img_format)
+    let img = image::load_from_memory(image_data)
         .map_err(|e| AppError::Stegano(format!("Failed to load image: {}", e)))?;
     
     // Check metadata first (primary for JPG/WebP, secondary for PNG)
