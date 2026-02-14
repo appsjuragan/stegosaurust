@@ -1,0 +1,227 @@
+{
+    "info": {
+        "_postman_id": "aa123b32-e367-4cfc-983c-ab168d235246",
+        "name": "Stegosaurust API",
+        "description": "API collection for Stegosaurust backend by Appsjuragan (v0.1.0-beta)",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Auth",
+            "item": [
+                {
+                    "name": "Register",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"username\": \"testuser\",\n    \"password\": \"password123\",\n    \"email\": \"test@example.com\",\n    \"captcha_id\": \"{{captcha_id}}\",\n    \"captcha_answer\": \"{{captcha_answer}}\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/register",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "register"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Login",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"username\": \"testuser\",\n    \"password\": \"password123\",\n    \"captcha_id\": \"{{captcha_id}}\",\n    \"captcha_answer\": \"{{captcha_answer}}\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/login",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "login"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Captcha",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/captcha",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "captcha"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Messages",
+            "item": [
+                {
+                    "name": "List Messages",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/messages",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "messages"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Message Image",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/messages/{{message_id}}/image",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "messages",
+                                "{{message_id}}",
+                                "image"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete Message",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/messages/{{message_id}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "messages",
+                                "{{message_id}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Stegano",
+            "item": [
+                {
+                    "name": "Embed Message",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "image",
+                                    "type": "file",
+                                    "src": []
+                                },
+                                {
+                                    "key": "message",
+                                    "value": "Secret message",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "seed_words",
+                                    "value": "word1 word2 word3",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "format",
+                                    "value": "png",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/stegano/embed",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "stegano",
+                                "embed"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ],
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://localhost:8080/api",
+            "type": "string"
+        },
+        {
+            "key": "token",
+            "value": "",
+            "type": "string"
+        }
+    ]
+}
