@@ -157,4 +157,123 @@ mod tests {
         
         assert_eq!(plaintext, decrypted);
     }
+
+    #[test]
+    fn test_empty_plaintext_fails() {
+        let result = encrypt_text("", "seed");
+        assert!(result.is_err());
+        assert!(matches!(result.unwrap_err(), AppError::Encryption(_)));
+    }
+
+    #[test]
+    fn test_empty_seed_fails() {
+        let result = encrypt_text("test", "");
+        assert!(result.is_err());
+        assert!(matches!(result.unwrap_err(), AppError::Encryption(_)));
+    }
+
+    #[test]
+    fn test_whitespace_only_seed_fails() {
+        let result = encrypt_text("test", "   ");
+        assert!(result.is_err());
+        assert!(matches!(result.unwrap_err(), AppError::Encryption(_)));
+    }
+
+    #[test]
+    fn test_empty_encrypted_fails() {
+        let result = decrypt_text("", "seed");
+        assert!(result.is_err());
+        assert!(matches!(result.unwrap_err(), AppError::Encryption(_)));
+    }
+
+    #[test]
+    fn test_invalid_base64_fails() {
+        let result = decrypt_text("not-valid-base64!!!", "seed");
+        assert!(result.is_err());
+        assert!(matches!(result.unwrap_err(), AppError::Encryption(_)));
+    }
+
+    #[test]
+    fn test_short_encrypted_data_fails() {
+        let result = decrypt_text("YWJjZA==", "seed"); // "abcd" in base64, only 4 bytes
+        assert!(result.is_err());
+        assert!(matches!(result.unwrap_err(), AppError::Encryption(_)));
+    }
+
+    #[test]
+    fn test_unique_nonce_per_encryption() {
+        let plaintext = "Same message";
+        let seed = "same seed";
+        
+        let encrypted1 = encrypt_text(plaintext, seed).unwrap();
+        let encrypted2 = encrypt_text(plaintext, seed).unwrap();
+        
+        // Same plaintext with same seed should produce different ciphertext due to random nonce
+        assert_ne!(encrypted1, encrypted2);
+        
+        // Both should decrypt to the same plaintext
+        assert_eq!(plaintext, decrypt_text(&encrypted1, seed).unwrap());
+        assert_eq!(plaintext, decrypt_text(&encrypted2, seed).unwrap());
+    }
+
+    #[test]
+    fn test_unicode_message() {
+        let plaintext = "Hello 世界 🌍 Привет мир";
+        let seed = "unicode seed";
+        
+        let encrypted = encrypt_text(plaintext, seed).unwrap();
+        let decrypted = decrypt_text(&encrypted, seed).unwrap();
+        
+        assert_eq!(plaintext, decrypted);
+    }
+
+    #[test]
+    fn test_long_message() {
+        let plaintext = "a".repeat(10000);
+        let seed = "long message seed";
+        
+        let encrypted = encrypt_text(&plaintext, seed).unwrap();
+        let decrypted = decrypt_text(&encrypted, seed).unwrap();
+        
+        assert_eq!(plaintext, decrypted);
+    }
+
+    #[test]
+    fn test_key_derivation_consistency() {
+        let seed = "test seed";
+        let key1 = derive_key_from_seed(seed);
+        let key2 = derive_key_from_seed(seed);
+        
+        assert_eq!(key1, key2);
+    }
+
+    #[test]
+    fn test_key_derivation_normalization() {
+        let key1 = derive_key_from_seed("Test Seed");
+        let key2 = derive_key_from_seed("  test seed  ");
+        
+        assert_eq!(key1, key2);
+    }
+
+    #[test]
+    fn test_hash_seed_words() {
+        let hash1 = hash_seed_words("test");
+        let hash2 = hash_seed_words("TEST");
+        
+        // Hash should be the same for normalized seeds
+        assert_eq!(hash1, hash2);
+        
+        // Hash should be different for different seeds
+        let hash3 = hash_seed_words("different");
+        assert_ne!(hash1, hash3);
+    }
+
+    #[test]
+    fn test_verify_seed_hash() {
+        let seed = "my secret seed";
+        let hash = hash_seed_words(seed);
+        
+        assert!(verify_seed_hash(seed, &hash).unwrap());
+        assert!(!verify_seed_hash("wrong seed", &hash).unwrap());
+    }
 }

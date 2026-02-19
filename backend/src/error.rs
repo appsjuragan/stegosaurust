@@ -43,6 +43,12 @@ pub enum AppError {
 
     #[error("Unauthorized")]
     Unauthorized,
+
+    #[error("Rate limit exceeded: {0}")]
+    RateLimit(String),
+
+    #[error("Account locked: {0}")]
+    AccountLocked(String),
 }
 
 impl IntoResponse for AppError {
@@ -65,6 +71,8 @@ impl IntoResponse for AppError {
             AppError::NotFound(msg) => (StatusCode::NOT_FOUND, msg),
             AppError::Internal => (StatusCode::INTERNAL_SERVER_ERROR, "Internal server error".to_string()),
             AppError::Unauthorized => (StatusCode::UNAUTHORIZED, "Unauthorized".to_string()),
+            AppError::RateLimit(msg) => (StatusCode::TOO_MANY_REQUESTS, msg),
+            AppError::AccountLocked(msg) => (StatusCode::FORBIDDEN, msg),
         };
 
         let body = Json(json!({
